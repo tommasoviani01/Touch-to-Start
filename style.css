@@ -88,13 +88,30 @@ header {
   position: absolute;
   left: 0px;
   border: none;
-  left: 0px;
-  top: 0px;
+  left: 0;
+  top: 0;
   width: 400px;
   height: 100vh;
   background-color: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px); /* per Safari */
+  transform: translateX(-40px);
+  opacity: 0;
+  transition:
+    opacity .4s ease,
+    transform .4s ease,
+    overlay .4s allow-discrete, /* Aggiunto allow-discrete per animare correttamente */
+    display .4s allow-discrete; /* Aggiunto allow-discrete per animare correttamente */
+}
+
+#site-navigation:popover-open {
+  opacity: 1;
+  transform: translateX(0);
+
+  @starting-style { /* Permette l'animazione anche quando il menu si apre */
+    opacity: 0;
+    transform: translateX(-40px);
+  }
 }
 
 .header-nav {
@@ -117,14 +134,71 @@ header {
   padding: 10px 20px;
   background-color: #FFB7B7;
   border-radius: 50px;
-  width: 150px;
+  width: 170px;
   list-style-type: none;
-  transition: all 0.3s ease;
+  /* Animazione dei pulsanti */
+  opacity: 1;
+  transform: translateX(0);
+  transition: 
+    background-color 0.3s ease,
+    opacity 0.5s ease,
+    transform 0.5s ease;
+  transition-delay: 0s;
+}
+
+/* Animazione pulsanti menu */
+.header-nav ul li:nth-child(1) {
+  transition-delay: 0.1s;
+}
+.header-nav ul li:nth-child(2) {
+  transition-delay: 0.15s;
+}
+.header-nav ul li:nth-child(3) {
+  transition-delay: 0.2s;
+}
+.header-nav ul li:nth-child(4) {
+  transition-delay: 0.25s;
+}
+.header-nav ul li:nth-child(5) {
+  transition-delay: 0.3s;
+}
+
+@starting-style { /* Stato dei pulsanti quando il menu si apre */
+  #site-navigation:popover-open ul li {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  #site-navigation:popover-open button {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+}
+
+#site-navigation:not(:popover-open) ul li { /* Stato dei pulsanti quando il menu si chiude */
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: 
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  transition-delay: 0s;
+}
+
+#site-navigation:not(:popover-open) button { 
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  transition-delay: 0s;
+}
+
+#site-navigation:not(:popover-open) {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition-delay: 0.2s;
 }
 
 .header-nav ul li:hover {
   background: #FFA8A8;
   transform: scale(1.1);
+  transition-delay: 0s;
 }
 
 nav button {
@@ -135,7 +209,12 @@ nav button {
   color: red;
   font-weight: 500;
   font-size: 18px;
-  transition: all 0.3s ease;
+  /* Animazione pulsante chiudi */
+  opacity: 1;
+  transition: 
+    opacity 0.5s ease 0.35s,
+    transform 0.3s ease,
+    text-decoration 0.3s ease;
 }
 
 nav button:hover {
